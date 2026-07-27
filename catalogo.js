@@ -987,13 +987,15 @@
             el.style.transform = `translate3d(0, ${(distance * factor).toFixed(1)}px, 0)`;
           });
         }
-        window.addEventListener('scroll', () => {
-          if (!parallaxTicking) {
-            requestAnimationFrame(updateParallax);
-            parallaxTicking = true;
+        const ioHeroParallax = new IntersectionObserver((entries) => {
+          if (entries[0].isIntersecting) {
+            window.addEventListener('scroll', updateParallax, { passive: true });
+            updateParallax();
+          } else {
+            window.removeEventListener('scroll', updateParallax);
           }
-        }, { passive: true });
-        updateParallax();
+        });
+        ioHeroParallax.observe(heroSec);
       }
 
       // ─── REVEAL side index after "Pisos · coleções" (first collections-index) ─
@@ -1002,8 +1004,9 @@
       const firstCollectionEl = firstCollection
         ? document.getElementById(`colecao-${firstProduct.key}-${firstCollection.key}`)
         : null;
-      if (firstCollectionEl) {
+      if (firstCollectionEl && sideIndex) {
         const checkReveal = () => {
+          if (window.innerWidth <= 1024) return;
           const rect = firstCollectionEl.getBoundingClientRect();
           // Reveal when the first collection (Brazil) starts entering the viewport
           const entering = rect.top < window.innerHeight * 0.85;
@@ -1015,6 +1018,7 @@
 
       // ─── SCROLL-SPY for side index ───────────────────────────────
       function updateSideIndex() {
+        if (window.innerWidth <= 1024 || !sideIndex) return;
         const centerY = window.innerHeight / 2;
         let best = null, bestDist = Infinity;
         for (const entry of sideEntries) {
@@ -1043,6 +1047,7 @@
       }
       let spyTicking = false;
       window.addEventListener('scroll', () => {
+        if (window.innerWidth <= 1024) return;
         if (!spyTicking) {
           requestAnimationFrame(() => { updateSideIndex(); spyTicking = false; });
           spyTicking = true;
@@ -1064,9 +1069,7 @@
       }, { passive: true });
       updateHero();
 
-      // ─── MOUSE PARALLAX (reutilizável)
-      // Qualquer elemento com [data-mouse-parallax] segue o mouse devagar
-      // dentro do seu container (closest [data-mouse-parallax-host] ou parentElement)
+      // ─── MOUSE PARALLAX (reutilizável — desativado em telas touch/mobile)
       function attachMouseParallax(bgEl) {
         if (!bgEl || bgEl.__mouseParallaxAttached) return;
         bgEl.__mouseParallaxAttached = true;
@@ -1074,11 +1077,9 @@
         const container = bgEl.closest('[data-mouse-parallax-host]') || bgEl.parentElement;
         if (!container) return;
 
-        // Sobrescreve transition pra remover atraso no transform.
-        // Mantém opacidade (fade-up) e outras propriedades animadas — só o transform fica instantâneo.
         bgEl.style.transition = 'opacity 0.9s cubic-bezier(0.16,1,0.3,1)';
 
-        const MAX = parseFloat(bgEl.dataset.mouseParallax) || 40; // px máximo
+        const MAX = parseFloat(bgEl.dataset.mouseParallax) || 40;
         const EASE = 0.06;
         let targetX = 0, targetY = 0;
         let currentX = 0, currentY = 0;
@@ -1110,14 +1111,16 @@
         }
       }
 
-      // Escaneia todos os elementos com data-mouse-parallax — atual e futuros
-      function scanMouseParallax() {
-        document.querySelectorAll('[data-mouse-parallax]').forEach(attachMouseParallax);
+      // Escaneia apenas em dispositivos desktop com ponteiro preciso
+      const isDesktopPointer = window.matchMedia('(pointer: fine)').matches;
+      if (isDesktopPointer) {
+        function scanMouseParallax() {
+          document.querySelectorAll('[data-mouse-parallax]').forEach(attachMouseParallax);
+        }
+        scanMouseParallax();
+        const parallaxRescan = new MutationObserver(scanMouseParallax);
+        parallaxRescan.observe(document.body, { childList: true, subtree: true });
       }
-      scanMouseParallax();
-      // Re-escanear de tempos em tempos (covers de coleção são adicionadas async)
-      const parallaxRescan = new MutationObserver(scanMouseParallax);
-      parallaxRescan.observe(document.body, { childList: true, subtree: true });
 
       // ─── BACK TO TOP ─────────────────────────
       const topBtn = document.getElementById('back-to-top');
@@ -1126,7 +1129,6 @@
         topBtn.addEventListener('click', () => {
           window.scrollTo({ top: 0, behavior: 'smooth' });
         });
-        // "Voltar ao topo" aparece após rolar além do hero
         const updateFloating = () => {
           topBtn.classList.toggle('is-visible', window.scrollY > window.innerHeight * 0.7);
         };
@@ -1138,6 +1140,7 @@
       (function scrollFadeMulticamadas() {
         const els = document.querySelectorAll('.multicamadas-line');
         if (!els.length) return;
+        const parentSec = els[0].closest('section') || els[0].parentElement;
         let ticking = false;
         const update = () => {
           const vh = window.innerHeight;
@@ -1154,10 +1157,20 @@
           });
           ticking = false;
         };
-        window.addEventListener('scroll', () => {
+        const onScroll = () => {
           if (!ticking) { requestAnimationFrame(update); ticking = true; }
-        }, { passive: true });
-        update();
+        };
+        if (parentSec) {
+          const io = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+              window.addEventListener('scroll', onScroll, { passive: true });
+              update();
+            } else {
+              window.removeEventListener('scroll', onScroll);
+            }
+          });
+          io.observe(parentSec);
+        }
       })();
 
       // ─── TEXTURAS: réguas que trocam com navegação lateral (clara → escura)

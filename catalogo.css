@@ -968,6 +968,17 @@
       }
       .product-cover-title { font-size: clamp(3rem, 16vw, 6rem); }
       .collections-index { padding: 5rem 7vw 2rem; }
+      /* Índice de modelos/coleções: nomes longos não podem ficar no tamanho
+         fixo de desktop no mobile. */
+      .collections-index .index-link,
+      #products-nav .index-link {
+        font-size: clamp(1.9rem, 8.5vw, 3rem);
+        line-height: 1.04;
+        height: auto;
+        padding: 0.1em 0;
+      }
+      .collections-index .index-list { gap: 0.7rem; }
+      .collections-index .index-link .num { transform: translateY(0.4em); }
       .collection-cover { min-height: 65vh; }
       .collection-cover-content { padding: 2.5rem 7vw 3rem; }
       .carousel-viewport { aspect-ratio: 4/5; }
@@ -997,6 +1008,38 @@
       .lb-next { right: 8px; }
       .video-nav { padding: 12px; }
       .eyebrow { letter-spacing: 0.4em; }
+    }
+    /* Índice de modelos/coleções no mobile: a seção acompanha o conteúdo
+       (sem tela cheia com muito vazio), a capa fica mais escura com um scrim
+       p/ o texto branco ficar legível, e os nomes ganham respiro.
+       Vem depois do @supports p/ vencer o 100svh. */
+    @media (max-width: 768px) {
+      .collections-index {
+        min-height: auto;
+        justify-content: flex-start;
+        padding-top: 5rem;
+        padding-bottom: 3.5rem;
+      }
+      .collections-index > .ci-bg {
+        background-position: center;
+        filter: brightness(0.3);
+      }
+      /* scrim escuro entre a capa e o texto (garante contraste sobre a madeira) */
+      .collections-index::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        background: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.32) 45%, rgba(0,0,0,0.58) 100%);
+        pointer-events: none;
+      }
+      /* nomes: um pouco menores, com respiro entre linhas quebradas e itens */
+      .collections-index .index-link {
+        font-size: clamp(1.6rem, 7.2vw, 2.5rem);
+        line-height: 1.14;
+      }
+      .collections-index .index-list { gap: 1rem; }
+      .collections-index .index-link .num { transform: translateY(0.55em); }
     }
     /* Motion: respeitar prefers-reduced-motion globalmente */
     @media (prefers-reduced-motion: reduce) {

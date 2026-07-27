@@ -28,10 +28,19 @@
     const p = Math.min(scrolled / (runway * 0.8), 1);
     sticky.style.setProperty('--hp', p.toFixed(4));
   }
-  window.addEventListener('scroll', () => {
-    if (!ticking){ requestAnimationFrame(update); ticking = true; }
-  }, { passive: true });
-  window.addEventListener('resize', update, { passive: true });
+  const onScroll = () => { if (!ticking){ requestAnimationFrame(update); ticking = true; } };
+
+  const io = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', update, { passive: true });
+      update();
+    } else {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', update);
+    }
+  }, { rootMargin: '100px 0px' });
+  io.observe(vp);
   update();
 })();
 
@@ -41,19 +50,17 @@
   if (!logo) return;
   const light = [...document.querySelectorAll('#sobre, .texturas-scroll, #madeiras-tipos')];
   if (!light.length) return;
-  const LINE = 26; /* altura aprox. do centro do logo na navbar */
-  let ticking = false;
-  function update(){
-    ticking = false;
-    const over = light.some(s => {
-      const r = s.getBoundingClientRect();
-      return r.top <= LINE && r.bottom >= LINE;
+
+  const activeSet = new Set();
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) activeSet.add(e.target);
+      else activeSet.delete(e.target);
     });
-    logo.classList.toggle('is-dark', over);
-  }
-  window.addEventListener('scroll', ()=>{ if(!ticking){ ticking=true; requestAnimationFrame(update); } }, { passive:true });
-  window.addEventListener('resize', update, { passive: true });
-  update();
+    logo.classList.toggle('is-dark', activeSet.size > 0);
+  }, { rootMargin: '-26px 0px -95% 0px' });
+
+  light.forEach(s => io.observe(s));
 })();
 
 /* reveal on scroll (escopado ao #sobre) */
@@ -86,7 +93,6 @@
   const update = () => {
     ticking = false;
     const r = sec.getBoundingClientRect();
-    if (r.bottom < 0 || r.top > window.innerHeight) return;
     const total = sec.offsetHeight - window.innerHeight;
     if (total <= 0) return;
     const p = clamp(-r.top / total);
@@ -110,9 +116,17 @@
   };
 
   const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll, { passive: true });
-  update();
+  const io = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+      update();
+    } else {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    }
+  }, { rootMargin: '100px 0px' });
+  io.observe(sec);
 })();
 
 /* Madeiras — piso 3D fechado, girável com o mouse/toque (seção #madeiras-tipos) */
