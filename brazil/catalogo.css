@@ -18,9 +18,21 @@
       --branco-40: rgba(255,255,255,0.40);
       --branco-10: rgba(255,255,255,0.10);
 
-      /* Tipografia */
-      --font-display: 'Inter', sans-serif;
-      --font-body: 'Inter', sans-serif;
+      /* ── Tipografia ────────────────────────────────────────────
+         Segunda fonte na pilha: o Windows não tem Helvetica/Inter
+         instalados, então sem o webfont ele cai em Arial e o layout
+         quebra. Segoe UI Variable (Win 11) / Segoe UI (Win 10) são a
+         substituição métrica mais próxima do Inter.
+         Os pesos vêm de --fw-*, que o bloco html.win ajusta: o
+         rasterizador do Windows (DirectWrite, sem antialiasing
+         subpixel vertical) deixa o Inter 200/300 quebradiço e ilegível
+         em texto corrido. */
+      --font-display: 'Inter', 'Segoe UI Variable Display', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+      --font-body: 'Inter', 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+
+      /* Pesos (Windows sobe um degrau — ver html.win) */
+      --fw-light: 200;
+      --fw-text: 300;
 
       /* Escala tipográfica */
       --text-display: 72px;
@@ -40,6 +52,21 @@
 
       /* Grid */
       --container: 1400px;
+    }
+
+    /* ── Windows: correção de renderização ──────────────────────
+       Classe aplicada em <html> por assets/js/components.js, ainda no
+       <head>, antes do primeiro paint (sem flash de fonte trocada). */
+    html.win {
+      --fw-light: 300;
+      --fw-text: 400;
+    }
+
+    html.win body {
+      /* Sem isto o Chrome/Edge no Windows "engorda" pesos que faltam
+         no webfont, dobrando o traço já grosso do DirectWrite. */
+      font-synthesis-weight: none;
+      text-rendering: optimizeLegibility;
     }
 
     html { scroll-behavior: smooth; }
@@ -144,7 +171,7 @@
     .menu-overlay.is-open .menu-list li:nth-child(8) { transition-delay: 0.52s; }
     .menu-list a {
       font-family: var(--font-display);
-      font-weight: 200;
+      font-weight: var(--fw-light, 200);
       letter-spacing: -0.02em;
       font-size: clamp(1.75rem, 4vw, 2.625rem);
       color: rgba(255,255,255,0.55);
@@ -194,7 +221,7 @@
     }
     .display-title {
       font-family: var(--font-display);
-      font-weight: 200;
+      font-weight: var(--fw-light, 200);
       letter-spacing: -0.04em;
       line-height: 1.02;
     }
@@ -283,7 +310,7 @@
     }
     .index-link {
       font-family: var(--font-display);
-      font-weight: 200;
+      font-weight: var(--fw-light, 200);
       letter-spacing: -0.03em;
       line-height: 1;
       font-size: clamp(2.5rem, 6vw, 4.5rem);
@@ -374,7 +401,7 @@
     .product-cover-title {
       font-family: var(--font-display);
       font-size: var(--text-h1);
-      font-weight: 200;
+      font-weight: var(--fw-light, 200);
       letter-spacing: -0.05em;
       line-height: 1.05;
     }
@@ -479,7 +506,7 @@
     .collection-cover-title {
       font-family: var(--font-display);
       font-size: clamp(2.5rem, 6vw, 4.5rem);
-      font-weight: 200;
+      font-weight: var(--fw-light, 200);
       letter-spacing: -0.04em;
       line-height: 1.05;
     }
@@ -549,10 +576,12 @@
          central — justamente onde está o piso. Puxa o enquadramento p/ baixo,
          sem chegar ao extremo (acima de ~70% o cenário some e sobra só piso). */
       object-position: center 65%;
-      transform: scale(1.04);
+      /* --photo-scale encolhe a foto dentro do quadro (fotos em contain que
+         ficam grandes demais ocupando 100vh). O 1.04 é o zoom do reveal. */
+      transform: scale(calc(var(--photo-scale, 1) * 1.04));
       transition: transform var(--dur) var(--ease);
     }
-    .photo-stream-item.in-view img { transform: scale(1); }
+    .photo-stream-item.in-view img { transform: scale(var(--photo-scale, 1)); }
     /* Fundo desfocado por trás de fotos exibidas inteiras (fit contain) */
     
     .photo-stream-item img:not(.photo-blur-bg) { position: relative; z-index: 1; }
@@ -914,7 +943,7 @@
     .porque-title {
       font-family: var(--font-display);
       font-size: var(--text-h2);
-      font-weight: 200;
+      font-weight: var(--fw-light, 200);
       letter-spacing: -0.03em;
       line-height: 1.1;
       color: #ffffff;
@@ -1076,7 +1105,7 @@
     }
     .texturas-nome {
       font-family: var(--font-display);
-      font-weight: 200;
+      font-weight: var(--fw-light, 200);
       letter-spacing: -0.03em;
       line-height: 1.05;
       font-size: clamp(2.4rem, 5.2vw, 4.6rem);

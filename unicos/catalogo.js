@@ -29,8 +29,10 @@
               desc: 'A autenticidade das madeiras brasileiras traduzida em réguas de beleza única. Uma coleção que exalta a alma tropical com cores profundas e fibras marcantes.',
               localFolder: 'pisos/brazil',
               names: { 1: 'Canela', 2: 'Peroba Mica', 3: 'Peroba Mica', 4: 'Cumaru', 5: 'Cumaru', 6: 'Tauari Naturalle', 7: 'Cumaru', 8: 'Chevron de Tauari', 9: 'Cumaru', 10: 'Sucupira Rústica' },
-              // Foto 9 (Chevron de Tauari) é retrato: em vez do corte "cover"
-              // (que dá zoom forte), exibe a foto inteira, sem corte (contain).
+              // Foto 8 (Chevron de Tauari) é quase quadrada (831x789): em cover
+              // ela perderia ~40% da altura no corte. Em contain aparece
+              // inteira, ocupando toda a altura do quadro, com o fundo
+              // desfocado preenchendo as laterais.
               fits: { 8: 'contain' },
               specs: [
                 { label: 'Espécies', value: 'Cumaru, Ipê, Tauari, Catuaba, Peroba do Campo, Sucupira Negra, Peroba Mica, Cabreúva Dourada e Pau Mulato.' },
@@ -416,7 +418,9 @@
       });
 
       const KNOWN_LOCAL = {
-        'pisos/brazil': [2,3,4,5,6,7,8,9,10,11].map(n => `${BASE}pisos/brazil/${String(n).padStart(2,'0')}.webp`),
+        // 09 é a foto do chevron de Tauari (jpg — as demais são webp).
+        'pisos/brazil': ['02.webp','03.webp','04.webp','05.webp','06.webp','07.webp','08.webp','09.jpg','10.webp','11.webp']
+          .map(f => `${BASE}pisos/brazil/${f}`),
         'pisos/eternos': [1,2,3,4,5].map(n => `${BASE}pisos/eternos/${String(n).padStart(2,'0')}.webp`),
         'pisos/unicos': [1,2,3,4].map(n => `${BASE}pisos/unicos/${String(n).padStart(2,'0')}.webp`)
       };
@@ -492,6 +496,7 @@
           const styleParts = [];
           if (img.focus) styleParts.push(`object-position: center ${img.focus}`);
           if (img.fit) styleParts.push(`object-fit: ${img.fit}`);
+          if (img.scale) styleParts.push(`--photo-scale: ${img.scale}`);
           const focusStyle = styleParts.length ? ` style="${styleParts.join('; ')};"` : '';
           const proxiedSrc = proxify(img.src, 1600);
           // Imagens remotas ganham srcset (mobile baixa versão menor via proxy)
@@ -764,7 +769,7 @@
           let imgs = col.images;
           if (!imgs && col.localFolder) {
             const local = await findLocalImages(col.localFolder);
-            imgs = local.map((src, i) => ({ src, name: (col.names || {})[i + 1], fit: (col.fits || {})[i + 1] }));
+            imgs = local.map((src, i) => ({ src, name: (col.names || {})[i + 1], fit: (col.fits || {})[i + 1], scale: (col.scales || {})[i + 1] }));
           }
           if (!imgs || !imgs.length) {
             stream.remove();
@@ -918,7 +923,7 @@
         (product.collections || []).map(async (col) => {
           if (!col.images && col.localFolder) {
             const local = await findLocalImages(col.localFolder);
-            col.images = local.map((src, i) => ({ src, name: (col.names || {})[i + 1], fit: (col.fits || {})[i + 1] }));
+            col.images = local.map((src, i) => ({ src, name: (col.names || {})[i + 1], fit: (col.fits || {})[i + 1], scale: (col.scales || {})[i + 1] }));
           }
         })
       ));

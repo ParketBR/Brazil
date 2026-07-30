@@ -11,7 +11,7 @@
   <title>Parket - Pisos · Brazil</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=arrow_back,arrow_upward,chevron_left,chevron_right,close,search&display=swap" rel="stylesheet">
-  <script src="assets/js/components.js"></script>
+  <script src="assets/js/components.js?v=2"></script>
   <script>
     tailwind.config = {
       darkMode: "class",
@@ -19,7 +19,13 @@
         extend: {
           borderRadius: { "DEFAULT": "0", "lg": "0", "xl": "0", "full": "9999px" },
           colors: { "surface": "#131313", "background": "#000000", "primary": "#ffffff" },
-          fontFamily: { "headline": ["Inter"], "body": ["Inter"], "label": ["Inter"] }
+          // Fallbacks do Windows na mesma ordem do --font-body (catalogo.css),
+          // senão as classes font-* do Tailwind caem direto em Arial.
+          fontFamily: {
+            "headline": ["Inter", "Segoe UI Variable Display", "Segoe UI", "system-ui", "-apple-system", "Helvetica Neue", "Arial", "sans-serif"],
+            "body": ["Inter", "Segoe UI Variable Text", "Segoe UI", "system-ui", "-apple-system", "Helvetica Neue", "Arial", "sans-serif"],
+            "label": ["Inter", "Segoe UI Variable Text", "Segoe UI", "system-ui", "-apple-system", "Helvetica Neue", "Arial", "sans-serif"]
+          }
         },
       },
     }
@@ -30,8 +36,11 @@
       --preto: #000000;
       --branco: #ffffff;
       --madeira: #c0bda6;
-      --font-display: 'Inter', sans-serif;
-      --font-body: 'Inter', sans-serif;
+      /* Segunda fonte da pilha para Windows (ver catalogo.css) */
+      --font-display: 'Inter', 'Segoe UI Variable Display', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+      --font-body: 'Inter', 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+      --fw-light: 200;
+      --fw-text: 300;
       --text-display: 72px; --text-h1: 56px; --text-h2: 42px; --text-h3: 32px; --text-h4: 24px;
       --text-body-lg: 20px; --text-body: 18px; --text-small: 16px; --text-caption: 14px;
       --ease: cubic-bezier(.22,.61,.36,1);
@@ -39,6 +48,10 @@
       --dur-btn: 0.35s;
       --container: 1400px;
     }
+
+    /* Windows: sobe um degrau de peso — ver catalogo.css */
+    html.win { --fw-light: 300; --fw-text: 400; }
+    html.win body { font-synthesis-weight: none; text-rendering: optimizeLegibility; }
 
     body {
       background-color: var(--preto);

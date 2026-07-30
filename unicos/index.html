@@ -11,7 +11,7 @@
   <link rel="preload" as="image" href="autoload/Hero.webp" fetchpriority="high">
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=arrow_back,arrow_upward,chevron_left,chevron_right,close,search&display=swap" rel="stylesheet">
-  <script src="assets/js/components.js"></script>
+  <script src="assets/js/components.js?v=2"></script>
   <parket-seo is-main></parket-seo>
   <script>
     tailwind.config = {
@@ -20,13 +20,19 @@
         extend: {
           borderRadius: { "DEFAULT": "0", "lg": "0", "xl": "0", "full": "9999px" },
           colors: { "surface": "#131313", "background": "#000000", "primary": "#ffffff" },
-          fontFamily: { "headline": ["Inter"], "body": ["Inter"], "label": ["Inter"] }
+          // Fallbacks do Windows na mesma ordem do --font-body (catalogo.css),
+          // senão as classes font-* do Tailwind caem direto em Arial.
+          fontFamily: {
+            "headline": ["Inter", "Segoe UI Variable Display", "Segoe UI", "system-ui", "-apple-system", "Helvetica Neue", "Arial", "sans-serif"],
+            "body": ["Inter", "Segoe UI Variable Text", "Segoe UI", "system-ui", "-apple-system", "Helvetica Neue", "Arial", "sans-serif"],
+            "label": ["Inter", "Segoe UI Variable Text", "Segoe UI", "system-ui", "-apple-system", "Helvetica Neue", "Arial", "sans-serif"]
+          }
         }
       }
     }
   </script>
-  <link rel="stylesheet" href="catalogo.css?v=5">
-  <link rel="stylesheet" href="index.css?v=32">
+  <link rel="stylesheet" href="catalogo.css?v=7">
+  <link rel="stylesheet" href="index.css?v=33">
 </head>
 
 <body class="antialiased selection:bg-white selection:text-black">
@@ -600,7 +606,7 @@
     document.getElementById('footer-year').textContent = new Date().getFullYear();
   </script>
   <script defer src="index.js?v=9"></script>
-  <script defer src="catalogo.js?v=11"></script>
+  <script defer src="catalogo.js?v=14"></script>
 </body>
 
 </html>

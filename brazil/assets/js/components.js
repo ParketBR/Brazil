@@ -1,8 +1,20 @@
+// ═══════════════════════════════════════════════════════════════
+// Plataforma — marca <html class="win"> no Windows.
+//
+// Roda no <head>, antes do primeiro paint, então o CSS já pega a
+// classe e não há flash de peso/fonte trocando. O ajuste em si
+// (pesos --fw-* e segunda fonte da pilha) mora no catalogo.css.
+// ═══════════════════════════════════════════════════════════════
+(function () {
+  var plat = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || navigator.userAgent || '';
+  if (/win/i.test(plat)) document.documentElement.classList.add('win');
+})();
+
 class ParketLoader extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `
       <div id="parket-global-loader" style="position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; align-items: center; justify-content: center; transition: opacity 0.6s cubic-bezier(.22,.61,.36,1); pointer-events: none;">
-        <h1 style="font-family: 'Inter', sans-serif; font-size: 1.5rem; letter-spacing: 0.5em; text-transform: uppercase; color: #fff; font-weight: 200; animation: pulse 2s infinite ease-in-out;">
+        <h1 style="font-family: var(--font-display, 'Inter', 'Segoe UI', sans-serif); font-size: 1.5rem; letter-spacing: 0.5em; text-transform: uppercase; color: #fff; font-weight: var(--fw-light, 200); animation: pulse 2s infinite ease-in-out;">
           Parket
         </h1>
       </div>

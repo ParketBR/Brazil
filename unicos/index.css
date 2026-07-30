@@ -55,7 +55,7 @@
   justify-content: center;
   pointer-events: none;
   font-family: var(--font-display);
-  font-weight: 200;
+  font-weight: var(--fw-light, 200);
   letter-spacing: .03em;
   text-transform: uppercase;
   font-size: clamp(1.75rem, 6vw, 5rem);
@@ -95,7 +95,7 @@
 #hero-sticky .hero-title {
   margin: 0;
   font-family: var(--font-display);
-  font-weight: 200;
+  font-weight: var(--fw-light, 200);
   letter-spacing: -.03em;
   line-height: 1.05;
   font-size: clamp(2.4rem, 5.6vw, 5rem);
@@ -105,7 +105,7 @@
 #hero-sticky .hero-title .accent {
   color: var(--madeira);
   text-transform: uppercase;
-  font-weight: 200;
+  font-weight: var(--fw-light, 200);
   letter-spacing: 0;
 }
 
@@ -258,7 +258,7 @@
 #sobre .sobre-title {
   margin: 0;
   font-family: var(--font-display);
-  font-weight: 200;
+  font-weight: var(--fw-light, 200);
   letter-spacing: -.03em;
   line-height: 1.1;
   font-size: clamp(2rem, 4.4vw, 3.5rem);
@@ -267,7 +267,7 @@
 }
 
 #sobre .accent {
-  font-weight: 200;
+  font-weight: var(--fw-light, 200);
   text-transform: uppercase;
   color: var(--accent);
   letter-spacing: 0;
@@ -284,7 +284,7 @@
 
 #sobre .corpo-text {
   font-size: var(--text-body);
-  font-weight: 300;
+  font-weight: var(--fw-text, 300);
   line-height: 1.75;
   color: var(--t-72);
   margin: 0;
@@ -318,7 +318,7 @@
 #sobre .sobre-pilar-title {
   margin: 0;
   font-family: var(--font-display);
-  font-weight: 300;
+  font-weight: var(--fw-text, 300);
   letter-spacing: -.01em;
   line-height: 1.2;
   font-size: clamp(1.25rem, 2.2vw, 1.6rem);
@@ -328,7 +328,7 @@
 #sobre .sobre-pilar p {
   margin: 0;
   font-size: var(--text-small);
-  font-weight: 300;
+  font-weight: var(--fw-text, 300);
   line-height: 1.7;
   color: var(--t-72);
 }
@@ -362,7 +362,7 @@
   display: block;
   font-family: var(--font-display);
   font-size: clamp(2rem, 3.5vw, 3.5rem);
-  font-weight: 200;
+  font-weight: var(--fw-light, 200);
   letter-spacing: -.02em;
   color: var(--t-95);
   line-height: 1;
@@ -406,7 +406,7 @@
 #sobre .porque-title {
   margin: 0;
   font-family: var(--font-display);
-  font-weight: 200;
+  font-weight: var(--fw-light, 200);
   letter-spacing: -.03em;
   line-height: 1.12;
   font-size: clamp(1.75rem, 3vw, 2.625rem);
@@ -518,7 +518,7 @@
 
 #tech-scroll .tech-title {
   margin: 0;
-  font-weight: 200;
+  font-weight: var(--fw-light, 200);
   letter-spacing: -.03em;
   line-height: 1.08;
   font-size: clamp(1.5rem, 3.2vw, 2.625rem);
@@ -668,7 +668,7 @@
 #tech-scroll .tech-label-text {
   margin: 0;
   font-size: var(--text-caption);
-  font-weight: 300;
+  font-weight: var(--fw-text, 300);
   line-height: 1.65;
   color: var(--branco-72);
 }
@@ -843,7 +843,7 @@
   margin: 0;
   max-width: 32ch;
   font-size: var(--text-small);
-  font-weight: 300;
+  font-weight: var(--fw-text, 300);
   line-height: 1.7;
   color: var(--branco-55);
 }
@@ -870,7 +870,7 @@
   display: inline-block;
   margin-top: clamp(1.5rem, 2.5vw, 2rem);
   font-size: var(--text-small);
-  font-weight: 300;
+  font-weight: var(--fw-text, 300);
   letter-spacing: .05em;
   color: var(--madeira);
   text-decoration: none;
@@ -917,7 +917,7 @@
   display: inline-block;
   position: relative;
   font-size: var(--text-small);
-  font-weight: 300;
+  font-weight: var(--fw-text, 300);
   line-height: 1.4;
   color: var(--branco-72);
   text-decoration: none;
@@ -965,7 +965,7 @@
 .site-footer .footer-copy,
 .site-footer .footer-meta {
   font-size: var(--text-caption);
-  font-weight: 300;
+  font-weight: var(--fw-text, 300);
   letter-spacing: .12em;
   color: var(--branco-40);
 }
@@ -1044,7 +1044,7 @@
 #madeiras-tipos .mtipos-title {
   margin: 0;
   font-family: var(--font-display);
-  font-weight: 200;
+  font-weight: var(--fw-light, 200);
   letter-spacing: -.03em;
   line-height: 1.1;
   font-size: clamp(1.75rem, 3.6vw, 3rem);
@@ -1055,7 +1055,7 @@
 #madeiras-tipos .mtipos-sub {
   display: block;
   color: var(--accent);
-  font-weight: 300;
+  font-weight: var(--fw-text, 300);
 }
 
 /* Introdução */
@@ -1066,7 +1066,7 @@
 #madeiras-tipos .mtipos-intro p {
   margin: 0;
   font-size: var(--text-body);
-  font-weight: 300;
+  font-weight: var(--fw-text, 300);
   line-height: 1.75;
   color: var(--ink-70);
 }
@@ -1362,7 +1362,7 @@
 #madeiras-tipos .mtipos-card-title {
   margin: 0;
   font-family: var(--font-display);
-  font-weight: 300;
+  font-weight: var(--fw-text, 300);
   letter-spacing: -.01em;
   line-height: 1.2;
   font-size: clamp(1.25rem, 2.2vw, 1.75rem);
@@ -1376,7 +1376,7 @@
 #madeiras-tipos .mtipos-card p {
   margin: 0;
   font-size: var(--text-small);
-  font-weight: 300;
+  font-weight: var(--fw-text, 300);
   line-height: 1.7;
   color: var(--ink-70);
 }
@@ -1394,7 +1394,7 @@
   position: relative;
   padding-left: 1.4rem;
   font-size: var(--text-small);
-  font-weight: 300;
+  font-weight: var(--fw-text, 300);
   line-height: 1.6;
   color: var(--ink-70);
 }
@@ -1414,7 +1414,7 @@
   max-width: 44rem;
   margin: clamp(2.5rem, 4vw, 3.5rem) 0 0;
   font-size: var(--text-body);
-  font-weight: 300;
+  font-weight: var(--fw-text, 300);
   line-height: 1.75;
   color: var(--ink-95);
 }
@@ -1438,7 +1438,7 @@
 #madeiras-tipos .mtipos-react-title {
   margin: .5rem 0 0;
   font-family: var(--font-display);
-  font-weight: 200;
+  font-weight: var(--fw-light, 200);
   letter-spacing: -.03em;
   line-height: 1.12;
   font-size: clamp(1.6rem, 3vw, 2.5rem);
@@ -1449,7 +1449,7 @@
 #madeiras-tipos .mtipos-react-body p {
   margin: 0;
   font-size: var(--text-body);
-  font-weight: 300;
+  font-weight: var(--fw-text, 300);
   line-height: 1.75;
   color: var(--ink-70);
 }
