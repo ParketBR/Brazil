@@ -418,8 +418,8 @@
       });
 
       const KNOWN_LOCAL = {
-        // 09 é a foto do chevron de Tauari (jpg — as demais são webp).
-        'pisos/brazil': ['02.webp','03.webp','04.webp','05.webp','06.webp','07.webp','08.webp','09.jpg','10.webp','11.webp']
+        // 09 é a foto do chevron de Tauari.
+        'pisos/brazil': ['02.webp','03.webp','04.webp','05.webp','06.webp','07.webp','08.webp','09.webp','10.webp','11.webp']
           .map(f => `${BASE}pisos/brazil/${f}`),
         'pisos/eternos': [1,2,3,4,5].map(n => `${BASE}pisos/eternos/${String(n).padStart(2,'0')}.webp`),
         'pisos/unicos': [1,2,3,4].map(n => `${BASE}pisos/unicos/${String(n).padStart(2,'0')}.webp`)
