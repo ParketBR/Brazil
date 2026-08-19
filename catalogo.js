@@ -28,7 +28,7 @@
               key: 'brazil', title: 'Brazil',
               desc: 'A autenticidade das madeiras brasileiras traduzida em réguas de beleza única. Uma coleção que exalta a alma tropical com cores profundas e fibras marcantes.',
               localFolder: 'pisos/brazil',
-              names: { 1: 'Canela', 2: 'Peroba Mica', 3: 'Peroba Mica', 4: 'Cumaru', 5: 'Cumaru', 6: 'Tauari Naturalle', 7: 'Cumaru', 8: 'Chevron de Tauari', 9: 'Cumaru', 10: 'Sucupira Rústica' },
+              names: { 1: 'Canela', 2: 'Peroba Mica', 3: 'Peroba Mica', 4: 'Cumaru', 5: 'Cumaru', 6: 'Tauari Naturalle', 7: 'Cumaru', 8: 'Chevron de Tauari', 9: 'Sucupira Rústica' },
               // Foto 8 (Chevron de Tauari) é quase quadrada (831x789): em cover
               // ela perderia ~40% da altura no corte. Em contain aparece
               // inteira, ocupando toda a altura do quadro, com o fundo
@@ -419,7 +419,7 @@
 
       const KNOWN_LOCAL = {
         // 09 é a foto do chevron de Tauari.
-        'pisos/brazil': ['02.webp','03.webp','04.webp','05.webp','06.webp','07.webp','08.webp','09.webp','10.webp','11.webp']
+        'pisos/brazil': ['02.webp','03.webp','04.webp','05.webp','06.webp','07.webp','08.webp','09.webp','11.webp']
           .map(f => `${BASE}pisos/brazil/${f}`),
         'pisos/eternos': [1,2,3,4,5].map(n => `${BASE}pisos/eternos/${String(n).padStart(2,'0')}.webp`),
         'pisos/unicos': [1,2,3,4].map(n => `${BASE}pisos/unicos/${String(n).padStart(2,'0')}.webp`)
